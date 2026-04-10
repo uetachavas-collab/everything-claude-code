@@ -1,154 +1,89 @@
 ---
 name: knowledge-ops
-description: Knowledge base management, ingestion, sync, and retrieval across multiple storage layers (local files, MCP memory, vector stores, Git repos). Use when the user wants to save, organize, sync, deduplicate, or search across their knowledge systems.
+description: ローカルファイル・MCP メモリ・ベクターストア・Git リポジトリなど複数のストレージレイヤーをまたいだナレッジベースの管理・取り込み・同期・検索。情報の保存・整理・同期・重複排除・横断検索が必要な場合に使用してください。
 origin: ECC
 ---
 
-# Knowledge Operations
+# ナレッジ操作
 
-Manage a multi-layered knowledge system for ingesting, organizing, syncing, and retrieving knowledge across multiple stores.
+複数のストアをまたいで知識を取り込み・整理・同期・検索する多層ナレッジシステムを管理する。
 
-Prefer the live workspace model:
-- code work lives in the real cloned repos
-- active execution context lives in GitHub, Linear, and repo-local working-context files
-- broader human-facing notes can live in a non-repo context/archive folder
-- durable cross-machine memory belongs in the knowledge base, not in a shadow repo workspace
+ライブワークスペースモデルを優先する：
+- コード作業は実際のクローンリポジトリに置く
+- アクティブな実行コンテキストは GitHub・Linear・リポジトリローカルの作業コンテキストファイルに置く
+- より広い人向けのメモは非リポジトリのコンテキスト/アーカイブフォルダーに置いてよい
+- 永続的なクロスマシンのメモリはナレッジベースに置き、シャドウリポジトリのワークスペースには置かない
 
-## When to Activate
+## 有効化するとき
 
-- User wants to save information to their knowledge base
-- Ingesting documents, conversations, or data into structured storage
-- Syncing knowledge across systems (local files, MCP memory, Supabase, Git repos)
-- Deduplicating or organizing existing knowledge
-- User says "save this to KB", "sync knowledge", "what do I know about X", "ingest this", "update the knowledge base"
-- Any knowledge management task beyond simple memory recall
+- ナレッジベースに情報を保存したいとき
+- ドキュメント・会話・データを構造化されたストレージに取り込むとき
+- システム間で知識を同期するとき（ローカルファイル・MCP メモリ・Supabase・Git リポジトリ）
+- 既存の知識を重複排除または整理するとき
+- 「KB に保存して」「知識を同期して」「X について何を知っている?」「これを取り込んで」「ナレッジベースを更新して」と言われたとき
 
-## Knowledge Architecture
+## ナレッジアーキテクチャ
 
-### Layer 1: Active execution truth
-- **Sources:** GitHub issues, PRs, discussions, release notes, Linear issues/projects/docs
-- **Use for:** the current operational state of the work
-- **Rule:** if something affects an active engineering plan, roadmap, rollout, or release, prefer putting it here first
+### レイヤー 1: アクティブな実行の真実
+- **ソース:** GitHub イシュー・PR・ディスカッション・リリースノート・Linear イシュー/プロジェクト/ドキュメント
+- **用途:** 作業の現在の運用状態
+- **ルール:** アクティブなエンジニアリング計画・ロードマップ・展開・リリースに影響するものはここを優先する
 
-### Layer 2: Claude Code Memory (Quick Access)
-- **Path:** `~/.claude/projects/*/memory/`
-- **Format:** Markdown files with frontmatter
-- **Types:** user preferences, feedback, project context, reference
-- **Use for:** quick-access context that persists across conversations
-- **Automatically loaded at session start**
+### レイヤー 2: Claude Code メモリ（クイックアクセス）
+- **パス:** `~/.claude/projects/*/memory/`
+- **形式:** フロントマター付き Markdown ファイル
+- **用途:** セッションをまたいで永続化するクイックアクセスコンテキスト
+- **セッション開始時に自動ロードされる**
 
-### Layer 3: MCP Memory Server (Structured Knowledge Graph)
-- **Access:** MCP memory tools (create_entities, create_relations, add_observations, search_nodes)
-- **Use for:** Semantic search across all stored memories, relationship mapping
-- **Cross-session persistence with queryable graph structure**
+### レイヤー 3: MCP メモリサーバー（構造化ナレッジグラフ）
+- **アクセス:** MCP メモリツール（create_entities・create_relations・add_observations・search_nodes）
+- **用途:** 保存されたすべてのメモリのセマンティック検索、関係性マッピング
 
-### Layer 4: Knowledge base repo / durable document store
-- **Use for:** curated durable notes, session exports, synthesized research, operator memory, long-form docs
-- **Rule:** this is the preferred durable store for cross-machine context when the content is not repo-owned code
+### レイヤー 4: ナレッジベースリポジトリ/永続ドキュメントストア
+- **用途:** 厳選された永続メモ・セッションエクスポート・統合リサーチ・長文ドキュメント
+- **ルール:** クロスマシンのコンテキストの永続ストアとして推奨
 
-### Layer 5: External Data Store (Supabase, PostgreSQL, etc.)
-- **Use for:** Structured data, large document storage, full-text search
-- **Good for:** Documents too large for memory files, data needing SQL queries
+### レイヤー 5: 外部データストア（Supabase・PostgreSQL など）
+- **用途:** 構造化データ・大規模ドキュメントストレージ・全文検索
 
-### Layer 6: Local context/archive folder
-- **Use for:** human-facing notes, archived gameplans, local media organization, temporary non-code docs
-- **Rule:** writable for information storage, but not a shadow code workspace
-- **Do not use for:** active code changes or repo truth that should live upstream
+## 取り込みワークフロー
 
-## Ingestion Workflow
+新しい知識を保存する必要がある場合：
 
-When new knowledge needs to be captured:
+### 1. 分類する
+どんな種類の知識か?
+- ビジネス上の決定 → メモリファイル（project タイプ）+ MCP メモリ
+- アクティブなロードマップ/リリース → GitHub + Linear を優先
+- 個人的な設定 → メモリファイル（user/feedback タイプ）
+- リファレンス情報 → メモリファイル（reference タイプ）+ MCP メモリ
+- 大きなドキュメント → 外部データストア + メモリにサマリー
 
-### 1. Classify
-What type of knowledge is it?
-- Business decision -> memory file (project type) + MCP memory
-- Active roadmap / release / implementation state -> GitHub + Linear first
-- Personal preference -> memory file (user/feedback type)
-- Reference info -> memory file (reference type) + MCP memory
-- Large document -> external data store + summary in memory
-- Conversation/session -> knowledge base repo + short summary in memory
+### 2. 重複排除する
+この知識がすでに存在するか確認する：
+- 既存のエントリをメモリファイルで検索する
+- 関連する用語で MCP メモリを照会する
+- 別のローカルメモを作成する前に GitHub または Linear に情報が存在するか確認する
+- 重複を作らない。既存のエントリを更新する。
 
-### 2. Deduplicate
-Check if this knowledge already exists:
-- Search memory files for existing entries
-- Query MCP memory with relevant terms
-- Check whether the information already exists in GitHub or Linear before creating another local note
-- Do not create duplicates. Update existing entries instead.
+### 3. 保存する
+適切なレイヤーに書き込む：
+- クイックアクセスのために必ず Claude Code メモリを更新する
+- セマンティック検索と関係性マッピングのために MCP メモリを使用する
+- 情報がライブプロジェクトの真実を変える場合は先に GitHub/Linear を更新する
 
-### 3. Store
-Write to appropriate layer(s):
-- Always update Claude Code memory for quick access
-- Use MCP memory for semantic searchability and relationship mapping
-- Update GitHub / Linear first when the information changes live project truth
-- Commit to the knowledge base repo for durable long-form additions
+## ベストプラクティス
 
-### 4. Index
-Update any relevant indexes or summary files.
+- メモリファイルは簡潔に保つ。古いデータはアーカイブして肥大化を防ぐ。
+- すべてのナレッジファイルにメタデータのフロントマター（YAML）を使用する。
+- 保存前に重複排除する。まず検索し、次に作成または更新する。
+- 事実セットごとに一つの正規の保管場所を優先する。
+- Git 追跡ファイルにコミットする前に機密情報（API キー・パスワード）を削除する。
+- ナレッジファイルに一貫した命名規則を使用する（lowercase-kebab-case）。
 
-## Sync Operations
+## 品質チェック
 
-### Conversation Sync
-Periodically sync conversation history into the knowledge base:
-- Sources: Claude session files, Codex sessions, other agent sessions
-- Destination: knowledge base repo
-- Generate a session index for quick browsing
-- Commit and push
-
-### Workspace State Sync
-Mirror important workspace configuration and scripts to the knowledge base:
-- Generate directory maps
-- Redact sensitive config before committing
-- Track changes over time
-- Do not treat the knowledge base or archive folder as the live code workspace
-
-### GitHub / Linear Sync
-When the information affects active execution:
-- update the relevant GitHub issue, PR, discussion, release notes, or roadmap thread
-- attach supporting docs to Linear when the work needs durable planning context
-- only mirror a local note afterwards if it still adds value
-
-### Cross-Source Knowledge Sync
-Pull knowledge from multiple sources into one place:
-- Claude/ChatGPT/Grok conversation exports
-- Browser bookmarks
-- GitHub activity events
-- Write status summary, commit and push
-
-## Memory Patterns
-
-```
-# Short-term: current session context
-Use TodoWrite for in-session task tracking
-
-# Medium-term: project memory files
-Write to ~/.claude/projects/*/memory/ for cross-session recall
-
-# Long-term: GitHub / Linear / KB
-Put active execution truth in GitHub + Linear
-Put durable synthesized context in the knowledge base repo
-
-# Semantic layer: MCP knowledge graph
-Use mcp__memory__create_entities for permanent structured data
-Use mcp__memory__create_relations for relationship mapping
-Use mcp__memory__add_observations for new facts about known entities
-Use mcp__memory__search_nodes to find existing knowledge
-```
-
-## Best Practices
-
-- Keep memory files concise. Archive old data rather than letting files grow unbounded.
-- Use frontmatter (YAML) for metadata on all knowledge files.
-- Deduplicate before storing. Search first, then create or update.
-- Prefer one canonical home per fact set. Avoid parallel copies of the same plan across local notes, repo files, and tracker docs.
-- Redact sensitive information (API keys, passwords) before committing to Git.
-- Use consistent naming conventions for knowledge files (lowercase-kebab-case).
-- Tag entries with topics/categories for easier retrieval.
-
-## Quality Gate
-
-Before completing any knowledge operation:
-- no duplicate entries created
-- sensitive data redacted from any Git-tracked files
-- indexes and summaries updated
-- appropriate storage layer chosen for the data type
-- cross-references added where relevant
+ナレッジ操作を完了する前に確認：
+- 重複エントリが作成されていない
+- Git 追跡ファイルから機密データが削除されている
+- インデックスとサマリーが更新されている
+- データタイプに適したストレージレイヤーが選択されている

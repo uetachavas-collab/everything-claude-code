@@ -51,11 +51,6 @@
       "url": "https://mcp.vercel.com",
       "description": "Vercel deployments and projects"
     },
-    "railway": {
-      "command": "npx",
-      "args": ["-y", "@railway/mcp-server"],
-      "description": "Railway deployments"
-    },
     "cloudflare-docs": {
       "type": "http",
       "url": "https://docs.mcp.cloudflare.com/mcp",
@@ -109,22 +104,6 @@
       "args": ["-y", "@playwright/mcp", "--browser", "chrome"],
       "description": "Browser automation and testing via Playwright"
     },
-    "fal-ai": {
-      "command": "npx",
-      "args": ["-y", "fal-ai-mcp-server"],
-      "env": {
-        "FAL_KEY": "YOUR_FAL_KEY_HERE"
-      },
-      "description": "AI image/video/audio generation via fal.ai models"
-    },
-    "browserbase": {
-      "command": "npx",
-      "args": ["-y", "@browserbasehq/mcp-server-browserbase"],
-      "env": {
-        "BROWSERBASE_API_KEY": "YOUR_BROWSERBASE_KEY_HERE"
-      },
-      "description": "Cloud browser sessions via Browserbase"
-    },
     "browser-use": {
       "type": "http",
       "url": "https://api.browser-use.com/mcp",
@@ -142,11 +121,6 @@
       "command": "npx",
       "args": ["-y", "token-optimizer-mcp"],
       "description": "Token optimization for 95%+ context reduction via content deduplication and compression"
-    },
-    "laraplugins": {
-      "type": "http",
-      "url": "https://laraplugins.io/mcp/plugins",
-      "description": "Laravel plugin discovery — search packages by keyword, health score, Laravel/PHP version compatibility. Use with laravel-plugin-discovery skill."
     },
     "confluence": {
       "command": "npx",
@@ -167,6 +141,31 @@
       "description": "AI agent regression testing — snapshot behavior, detect regressions in tool calls and output quality. 8 tools: create_test, run_snapshot, run_check, list_tests, validate_skill, generate_skill_tests, run_skill_test, generate_visual_report. API key optional — deterministic checks (tool diff, output hash) work without it. Install: pip install \"evalview>=0.5,<1\""
     }
   },
+    "slack": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-slack"],
+      "env": {
+        "SLACK_BOT_TOKEN": "YOUR_SLACK_BOT_TOKEN_HERE",
+        "SLACK_TEAM_ID": "YOUR_SLACK_TEAM_ID_HERE"
+      },
+      "description": "Slack 操作 — メッセージ送受信・チャンネル管理・日本語ワークスペース対応"
+    },
+    "notion": {
+      "command": "npx",
+      "args": ["-y", "@notionhq/notion-mcp-server"],
+      "env": {
+        "OPENAPI_MCP_HEADERS": "{\"Authorization\": \"Bearer YOUR_NOTION_TOKEN_HERE\", \"Notion-Version\": \"2022-06-28\"}"
+      },
+      "description": "Notion 操作 — ページ・データベース・ブロックの読み書き（日本語データベース対応）"
+    },
+    "chatwork": {
+      "command": "npx",
+      "args": ["-y", "chatwork-mcp-server"],
+      "env": {
+        "CHATWORK_API_TOKEN": "YOUR_CHATWORK_API_TOKEN_HERE"
+      },
+      "description": "Chatwork 操作 — メッセージ送受信・ルーム管理（日本企業で広く使用）"
+    },
   "_comments": {
     "usage": "Copy the servers you need to your ~/.claude.json mcpServers section",
     "env_vars": "Replace YOUR_*_HERE placeholders with actual values",

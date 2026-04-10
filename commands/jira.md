@@ -1,106 +1,96 @@
 ---
-description: Retrieve a Jira ticket, analyze requirements, update status, or add comments. Uses the jira-integration skill and MCP or REST API.
+description: Jira チケットの取得・要件分析・ステータス更新・コメント追加を行います。jira-integration スキルと MCP または REST API を使用します。
 ---
 
-# Jira Command
+# Jira コマンド
 
-Interact with Jira tickets directly from your workflow — fetch tickets, analyze requirements, add comments, and transition status.
+ワークフローから直接 Jira チケットを操作する — チケットの取得・要件分析・コメント追加・ステータス遷移。
 
-## Usage
+## 使い方
 
 ```
-/jira get <TICKET-KEY>          # Fetch and analyze a ticket
-/jira comment <TICKET-KEY>      # Add a progress comment
-/jira transition <TICKET-KEY>   # Change ticket status
-/jira search <JQL>              # Search issues with JQL
+/jira get <TICKET-KEY>          # チケットを取得して分析
+/jira comment <TICKET-KEY>      # 進捗コメントを追加
+/jira transition <TICKET-KEY>   # チケットのステータスを変更
+/jira search <JQL>              # JQL でイシューを検索
 ```
 
-## What This Command Does
+## このコマンドがすること
 
-1. **Get & Analyze** — Fetch a Jira ticket and extract requirements, acceptance criteria, test scenarios, and dependencies
-2. **Comment** — Add structured progress updates to a ticket
-3. **Transition** — Move a ticket through workflow states (To Do → In Progress → Done)
-4. **Search** — Find issues using JQL queries
+1. **取得 & 分析** — Jira チケットを取得し、要件・受け入れ基準・テストシナリオ・依存関係を抽出する
+2. **コメント** — 構造化された進捗更新をチケットに追加する
+3. **遷移** — チケットをワークフロー状態間で移動する（作業予定 → 進行中 → 完了）
+4. **検索** — JQL クエリを使ってイシューを検索する
 
-## How It Works
+## 仕組み
 
 ### `/jira get <TICKET-KEY>`
 
-1. Fetch the ticket from Jira (via MCP `jira_get_issue` or REST API)
-2. Extract all fields: summary, description, acceptance criteria, priority, labels, linked issues
-3. Optionally fetch comments for additional context
-4. Produce a structured analysis:
+1. Jira からチケットを取得する（MCP `jira_get_issue` または REST API 経由）
+2. 全フィールドを抽出: サマリー・説明・受け入れ基準・優先度・ラベル・リンクイシュー
+3. 必要に応じてコメントも取得してコンテキストを補完する
+4. 構造化された分析を出力する：
 
 ```
-Ticket: PROJ-1234
-Summary: [title]
-Status: [status]
-Priority: [priority]
-Type: [Story/Bug/Task]
+チケット: PROJ-1234
+サマリー: [タイトル]
+ステータス: [状態]
+優先度: [優先度]
+種別: [ストーリー/バグ/タスク]
 
-Requirements:
-1. [extracted requirement]
-2. [extracted requirement]
+要件:
+1. [抽出された要件]
+2. [抽出された要件]
 
-Acceptance Criteria:
-- [ ] [criterion from ticket]
+受け入れ基準:
+- [ ] [チケットからの基準]
 
-Test Scenarios:
-- Happy Path: [description]
-- Error Case: [description]
-- Edge Case: [description]
+テストシナリオ:
+- ハッピーパス: [説明]
+- エラーケース: [説明]
+- エッジケース: [説明]
 
-Dependencies:
-- [linked issues, APIs, services]
+依存関係:
+- [リンクイシュー・API・サービス]
 
-Recommended Next Steps:
-- /plan to create implementation plan
-- /tdd to implement with tests first
+推奨される次のステップ:
+- /plan で実装計画を作成
 ```
 
 ### `/jira comment <TICKET-KEY>`
 
-1. Summarize current session progress (what was built, tested, committed)
-2. Format as a structured comment
-3. Post to the Jira ticket
+1. 現在のセッション進捗をまとめる（構築したもの・テスト・コミット）
+2. 構造化コメントとしてフォーマットする
+3. Jira チケットに投稿する
 
 ### `/jira transition <TICKET-KEY>`
 
-1. Fetch available transitions for the ticket
-2. Show options to user
-3. Execute the selected transition
+1. チケットの利用可能な遷移を取得する
+2. ユーザーに選択肢を表示する
+3. 選択された遷移を実行する
 
 ### `/jira search <JQL>`
 
-1. Execute the JQL query against Jira
-2. Return a summary table of matching issues
+1. Jira に対して JQL クエリを実行する
+2. マッチするイシューのサマリーテーブルを返す
 
-## Prerequisites
+## 前提条件
 
-This command requires Jira credentials. Choose one:
+このコマンドには Jira 認証情報が必要です。いずれかを選択：
 
-**Option A — MCP Server (recommended):**
-Add `jira` to your `mcpServers` config (see `mcp-configs/mcp-servers.json` for the template).
+**オプション A — MCP サーバー（推奨）:**
+`mcpServers` 設定に `jira` を追加する（テンプレートは `mcp-configs/mcp-servers.json` を参照）。
 
-**Option B — Environment variables:**
+**オプション B — 環境変数:**
 ```bash
 export JIRA_URL="https://yourorg.atlassian.net"
 export JIRA_EMAIL="your.email@example.com"
 export JIRA_API_TOKEN="your-api-token"
 ```
 
-If credentials are missing, stop and direct the user to set them up.
+認証情報がない場合は停止して、設定手順をユーザーに案内してください。
 
-## Integration with Other Commands
+## 関連
 
-After analyzing a ticket:
-- Use `/plan` to create an implementation plan from the requirements
-- Use `/tdd` to implement with test-driven development
-- Use `/code-review` after implementation
-- Use `/jira comment` to post progress back to the ticket
-- Use `/jira transition` to move the ticket when work is complete
-
-## Related
-
-- **Skill:** `skills/jira-integration/`
-- **MCP config:** `mcp-configs/mcp-servers.json` → `jira`
+- **スキル:** `skills/jira-integration/`
+- **MCP 設定:** `mcp-configs/mcp-servers.json` → `jira`

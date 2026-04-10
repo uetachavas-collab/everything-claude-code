@@ -1,141 +1,112 @@
 ---
 name: product-capability
-description: Translate PRD intent, roadmap asks, or product discussions into an implementation-ready capability plan that exposes constraints, invariants, interfaces, and unresolved decisions before multi-service work starts. Use when the user needs an ECC-native PRD-to-SRS lane instead of vague planning prose.
+description: PRD の意図・ロードマップの要望・製品ディスカッションを、マルチサービス作業開始前に制約・不変条件・インターフェース・未解決の決定事項を明らかにした実装準備済みのケイパビリティプランに変換します。曖昧な計画散文ではなく ECC ネイティブの PRD-to-SRS レーンが必要な場合に使用してください。
 origin: ECC
 ---
 
-# Product Capability
+# 製品ケイパビリティ
 
-This skill turns product intent into explicit engineering constraints.
+このスキルは製品の意図を明確なエンジニアリング制約に変換する。
 
-Use it when the gap is not "what should we build?" but "what exactly must be true before implementation starts?"
+「何を構築すべきか?」ではなく「実装前に正確に何が確定している必要があるか?」がギャップである場合に使用する。
 
-## When to Use
+## 使いどき
 
-- A PRD, roadmap item, discussion, or founder note exists, but the implementation constraints are still implicit
-- A feature crosses multiple services, repos, or teams and needs a capability contract before coding
-- Product intent is clear, but architecture, data, lifecycle, or policy implications are still fuzzy
-- Senior engineers keep restating the same hidden assumptions during review
-- You need a reusable artifact that can survive across harnesses and sessions
+- PRD・ロードマップアイテム・ディスカッション・創業者のメモが存在するが、実装の制約がまだ暗黙的な状態
+- 機能が複数のサービス・リポジトリ・チームをまたがり、コーディング前にケイパビリティコントラクトが必要
+- 製品の意図は明確だが、アーキテクチャ・データ・ライフサイクル・ポリシーの含意がまだ曖昧
+- シニアエンジニアがレビューで同じ隠れた前提を繰り返し再確認している
+- ハーネスとセッションをまたいで再利用できる成果物が必要
 
-## Canonical Artifact
+## 正規の成果物
 
-If the repo has a durable product-context file such as `PRODUCT.md`, `docs/product/`, or a program-spec directory, update it there.
+リポジトリに `PRODUCT.md`・`docs/product/`・プログラム仕様ディレクトリなど永続的な製品コンテキストファイルがある場合はそこを更新する。
 
-If no capability manifest exists yet, create one using the template at:
+ケイパビリティマニフェストがまだない場合は以下のテンプレートを使用して作成する：
 
 - `docs/examples/product-capability-template.md`
 
-The goal is not to create another planning stack. The goal is to make hidden capability constraints durable and reusable.
+目標は計画スタックをもうひとつ作ることではなく、隠れたケイパビリティ制約を永続的で再利用可能にすること。
 
-## Non-Negotiable Rules
+## 絶対に守ること
 
-- Do not invent product truth. Mark unresolved questions explicitly.
-- Separate user-visible promises from implementation details.
-- Call out what is fixed policy, what is architecture preference, and what is still open.
-- If the request conflicts with existing repo constraints, say so clearly instead of smoothing it over.
-- Prefer one reusable capability artifact over scattered ad hoc notes.
+- 製品の真実を作り上げない。未解決の質問は明示的にマークする。
+- ユーザーに見える約束と実装の詳細を分ける。
+- 固定されたポリシー・アーキテクチャの好み・まだ未解決のものを明確に示す。
+- リクエストが既存のリポジトリ制約と矛盾する場合は、それを丸め込まずに明確に述べる。
+- 散在するアドホックなメモより一つの再利用可能なケイパビリティ成果物を優先する。
 
-## Inputs
+## インプット
 
-Read only what is needed:
+必要なものだけを読む：
 
-1. Product intent
-   - issue, discussion, PRD, roadmap note, founder message
-2. Current architecture
-   - relevant repo docs, contracts, schemas, routes, existing workflows
-3. Existing capability context
-   - `PRODUCT.md`, design docs, RFCs, migration notes, operating-model docs
-4. Delivery constraints
-   - auth, billing, compliance, rollout, backwards compatibility, performance, review policy
+1. 製品の意図
+   - イシュー・ディスカッション・PRD・ロードマップノート・創業者のメッセージ
+2. 現在のアーキテクチャ
+   - 関連するリポジトリドキュメント・コントラクト・スキーマ・ルート・既存ワークフロー
+3. 既存のケイパビリティコンテキスト
+   - `PRODUCT.md`・設計ドキュメント・RFC・移行ノート
+4. デリバリーの制約
+   - 認証・課金・コンプライアンス・展開・後方互換性・パフォーマンス・レビューポリシー
 
-## Core Workflow
+## コアワークフロー
 
-### 1. Restate the capability
+### 1. ケイパビリティを確認する
 
-Compress the ask into one precise statement:
+要求を一つの精密な文に凝縮する：
 
-- who the user or operator is
-- what new capability exists after this ships
-- what outcome changes because of it
+- ユーザーまたはオペレーターは誰か
+- これが出荷した後に存在する新しいケイパビリティは何か
+- それによって変わるアウトカムは何か
 
-If this statement is weak, the implementation will drift.
+### 2. ケイパビリティ制約を解決する
 
-### 2. Resolve capability constraints
+実装前に保持すべき制約を抽出する：
 
-Extract the constraints that must hold before implementation:
+- ビジネスルール
+- スコープの境界
+- 不変条件
+- 信頼の境界
+- データオーナーシップ
+- ライフサイクル遷移
+- 展開/移行要件
+- 障害と復旧の期待
 
-- business rules
-- scope boundaries
-- invariants
-- trust boundaries
-- data ownership
-- lifecycle transitions
-- rollout / migration requirements
-- failure and recovery expectations
+### 3. 実装向けのコントラクトを定義する
 
-These are the things that often live only in senior-engineer memory.
+以下を含む SRS スタイルのケイパビリティプランを作成する：
 
-### 3. Define the implementation-facing contract
+- ケイパビリティサマリー
+- 明示的な非目標
+- アクターとサーフェス
+- 必要な状態と遷移
+- インターフェース/インプット/アウトプット
+- データモデルへの含意
+- セキュリティ/課金/ポリシーの制約
+- オブザーバビリティとオペレーター要件
+- 実装をブロックするオープンな質問
 
-Produce an SRS-style capability plan with:
-
-- capability summary
-- explicit non-goals
-- actors and surfaces
-- required states and transitions
-- interfaces / inputs / outputs
-- data model implications
-- security / billing / policy constraints
-- observability and operator requirements
-- open questions blocking implementation
-
-### 4. Translate into execution
-
-End with the exact handoff:
-
-- ready for direct implementation
-- needs architecture review first
-- needs product clarification first
-
-If useful, point to the next ECC-native lane:
-
-- `project-flow-ops`
-- `workspace-surface-audit`
-- `api-connector-builder`
-- `dashboard-builder`
-- `tdd-workflow`
-- `verification-loop`
-
-## Output Format
-
-Return the result in this order:
+## 出力フォーマット
 
 ```text
-CAPABILITY
-- one-paragraph restatement
+ケイパビリティ
+- 一段落の確認
 
-CONSTRAINTS
-- fixed rules, invariants, and boundaries
+制約
+- 固定ルール・不変条件・境界
 
-IMPLEMENTATION CONTRACT
-- actors
-- surfaces
-- states and transitions
-- interface/data implications
+実装コントラクト
+- アクター
+- サーフェス
+- 状態と遷移
+- インターフェース/データへの含意
 
-NON-GOALS
-- what this lane explicitly does not own
+非目標
+- このレーンが明示的に担当しないもの
 
-OPEN QUESTIONS
-- blockers or product decisions still required
+未解決の質問
+- ブロッカーまたはまだ必要な製品決定
 
-HANDOFF
-- what should happen next and which ECC lane should take it
+引き渡し
+- 次に何をすべきか、どの ECC レーンが担当するか
 ```
-
-## Good Outcomes
-
-- Product intent is now concrete enough to implement without rediscovering hidden constraints mid-PR.
-- Engineering review has a durable artifact instead of relying on memory or Slack context.
-- The resulting plan is reusable across Claude Code, Codex, Cursor, OpenCode, and ECC 2.0 planning surfaces.

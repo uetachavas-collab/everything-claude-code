@@ -1,155 +1,139 @@
 ---
 name: deep-research
-description: Multi-source deep research using firecrawl and exa MCPs. Searches the web, synthesizes findings, and delivers cited reports with source attribution. Use when the user wants thorough research on any topic with evidence and citations.
+description: firecrawl と exa MCP を使った複数情報源による深い調査。ウェブを検索・発見を統合し、情報源の帰属付きで引用済みレポートを提供します。証拠と引用付きの徹底した調査が必要なあらゆるトピックに使用してください。
 origin: ECC
 ---
 
-# Deep Research
+# 深い調査
 
-Produce thorough, cited research reports from multiple web sources using firecrawl and exa MCP tools.
+firecrawl と exa MCP ツールを使って複数のウェブ情報源から徹底的な引用付き調査レポートを作成する。
 
-## When to Activate
+## 有効化するとき
 
-- User asks to research any topic in depth
-- Competitive analysis, technology evaluation, or market sizing
-- Due diligence on companies, investors, or technologies
-- Any question requiring synthesis from multiple sources
-- User says "research", "deep dive", "investigate", or "what's the current state of"
+- 任意のトピックを深く調査するよう依頼されたとき
+- 競合分析・技術評価・市場規模調査
+- 企業・投資家・技術のデューデリジェンス
+- 複数の情報源からの統合が必要な質問
+- 「調査して」「深掘りして」「調べて」「現状はどうなっている」と言われたとき
 
-## MCP Requirements
+## MCP 要件
 
-At least one of:
-- **firecrawl** — `firecrawl_search`, `firecrawl_scrape`, `firecrawl_crawl`
-- **exa** — `web_search_exa`, `web_search_advanced_exa`, `crawling_exa`
+以下のいずれか一方（または両方）：
+- **firecrawl** — `firecrawl_search`・`firecrawl_scrape`・`firecrawl_crawl`
+- **exa** — `web_search_exa`・`web_search_advanced_exa`・`crawling_exa`
 
-Both together give the best coverage. Configure in `~/.claude.json` or `~/.codex/config.toml`.
+両方あわせると最高のカバレッジが得られる。`~/.claude.json` で設定する。
 
-## Workflow
+## ワークフロー
 
-### Step 1: Understand the Goal
+### ステップ 1: ゴールを理解する
 
-Ask 1-2 quick clarifying questions:
-- "What's your goal — learning, making a decision, or writing something?"
-- "Any specific angle or depth you want?"
+1〜2 の簡単な明確化質問をする：
+- 「目的は何ですか — 学習・意思決定・何かを書くこと?」
+- 「特定の切り口や深さはありますか?」
 
-If the user says "just research it" — skip ahead with reasonable defaults.
+「とにかく調べて」と言われた場合は、合理的なデフォルトで進む。
 
-### Step 2: Plan the Research
+### ステップ 2: 調査を計画する
 
-Break the topic into 3-5 research sub-questions. Example:
-- Topic: "Impact of AI on healthcare"
-  - What are the main AI applications in healthcare today?
-  - What clinical outcomes have been measured?
-  - What are the regulatory challenges?
-  - What companies are leading this space?
-  - What's the market size and growth trajectory?
+トピックを 3〜5 のサブ質問に分解する。例：
+- トピック: 「AI が医療に与える影響」
+  - 現在の医療における主な AI 応用は何か?
+  - どのような臨床アウトカムが測定されているか?
+  - 規制上の課題は何か?
+  - どの企業がこの分野をリードしているか?
+  - 市場規模と成長軌跡は?
 
-### Step 3: Execute Multi-Source Search
+### ステップ 3: 複数情報源での検索を実行する
 
-For EACH sub-question, search using available MCP tools:
+各サブ質問について、利用可能な MCP ツールで検索する：
 
-**With firecrawl:**
+**firecrawl を使う場合:**
 ```
-firecrawl_search(query: "<sub-question keywords>", limit: 8)
-```
-
-**With exa:**
-```
-web_search_exa(query: "<sub-question keywords>", numResults: 8)
-web_search_advanced_exa(query: "<keywords>", numResults: 5, startPublishedDate: "2025-01-01")
+firecrawl_search(query: "<サブ質問キーワード>", limit: 8)
 ```
 
-**Search strategy:**
-- Use 2-3 different keyword variations per sub-question
-- Mix general and news-focused queries
-- Aim for 15-30 unique sources total
-- Prioritize: academic, official, reputable news > blogs > forums
+**exa を使う場合:**
+```
+web_search_exa(query: "<サブ質問キーワード>", numResults: 8)
+web_search_advanced_exa(query: "<キーワード>", numResults: 5, startPublishedDate: "2025-01-01")
+```
 
-### Step 4: Deep-Read Key Sources
+**検索戦略:**
+- サブ質問ごとに 2〜3 種類のキーワードバリエーションを使う
+- 一般的なクエリとニュース重点のクエリを混在させる
+- ユニークな情報源は合計 15〜30 件を目標にする
+- 優先順位: 学術・公式・信頼できるニュース > ブログ > フォーラム
 
-For the most promising URLs, fetch full content:
+### ステップ 4: 主要情報源を深く読む
 
-**With firecrawl:**
+最も有望な URL については全文コンテンツを取得する：
+
+**firecrawl を使う場合:**
 ```
 firecrawl_scrape(url: "<url>")
 ```
 
-**With exa:**
+**exa を使う場合:**
 ```
 crawling_exa(url: "<url>", tokensNum: 5000)
 ```
 
-Read 3-5 key sources in full for depth. Do not rely only on search snippets.
+深みのために 3〜5 の主要情報源を全文読む。検索スニペットだけに頼らない。
 
-### Step 5: Synthesize and Write Report
+### ステップ 5: 統合してレポートを書く
 
-Structure the report:
+レポートを以下の構造で作成する：
 
 ```markdown
-# [Topic]: Research Report
-*Generated: [date] | Sources: [N] | Confidence: [High/Medium/Low]*
+# [トピック]: 調査レポート
+*生成日: [日付] | 情報源: [N]件 | 信頼度: [高/中/低]*
 
-## Executive Summary
-[3-5 sentence overview of key findings]
+## エグゼクティブサマリー
+[主要な発見の 3〜5 文の概要]
 
-## 1. [First Major Theme]
-[Findings with inline citations]
-- Key point ([Source Name](url))
-- Supporting data ([Source Name](url))
+## 1. [最初の主要テーマ]
+[インライン引用付きの発見]
+- 主要ポイント（[情報源名](url)）
+- 裏付けデータ（[情報源名](url)）
 
-## 2. [Second Major Theme]
+## 2. [2番目の主要テーマ]
 ...
 
-## 3. [Third Major Theme]
-...
+## 主要な示唆
+- [実行可能なインサイト 1]
+- [実行可能なインサイト 2]
+- [実行可能なインサイト 3]
 
-## Key Takeaways
-- [Actionable insight 1]
-- [Actionable insight 2]
-- [Actionable insight 3]
-
-## Sources
-1. [Title](url) — [one-line summary]
+## 情報源
+1. [タイトル](url) — 1行の要約
 2. ...
 
-## Methodology
-Searched [N] queries across web and news. Analyzed [M] sources.
-Sub-questions investigated: [list]
+## 方法論
+ウェブとニュースで [N] クエリを検索。[M] 情報源を分析。
+調査したサブ質問: [リスト]
 ```
 
-### Step 6: Deliver
+### ステップ 6: 提出する
 
-- **Short topics**: Post the full report in chat
-- **Long reports**: Post the executive summary + key takeaways, save full report to a file
+- **短いトピック**: レポート全文をチャットに投稿する
+- **長いレポート**: エグゼクティブサマリー + 主要な示唆を投稿し、全文はファイルに保存する
 
-## Parallel Research with Subagents
+## 品質ルール
 
-For broad topics, use Claude Code's Task tool to parallelize:
+1. **すべての主張に情報源が必要**: 根拠のない断言は含めない。
+2. **クロスリファレンス**: 1つの情報源しか言及していない場合は未検証とフラグを立てる。
+3. **鮮度が重要**: 過去 12 ヶ月の情報源を優先する。
+4. **ギャップを認める**: サブ質問に良い情報が見つからない場合は、そう伝える。
+5. **推測しない**: わからない場合は「十分なデータが見つかりませんでした」と言う。
+6. **事実と推論を分ける**: 推定・予測・意見に明確にラベルをつける。
 
-```
-Launch 3 research agents in parallel:
-1. Agent 1: Research sub-questions 1-2
-2. Agent 2: Research sub-questions 3-4
-3. Agent 3: Research sub-question 5 + cross-cutting themes
-```
-
-Each agent searches, reads sources, and returns findings. The main session synthesizes into the final report.
-
-## Quality Rules
-
-1. **Every claim needs a source.** No unsourced assertions.
-2. **Cross-reference.** If only one source says it, flag it as unverified.
-3. **Recency matters.** Prefer sources from the last 12 months.
-4. **Acknowledge gaps.** If you couldn't find good info on a sub-question, say so.
-5. **No hallucination.** If you don't know, say "insufficient data found."
-6. **Separate fact from inference.** Label estimates, projections, and opinions clearly.
-
-## Examples
+## 使用例
 
 ```
-"Research the current state of nuclear fusion energy"
-"Deep dive into Rust vs Go for backend services in 2026"
-"Research the best strategies for bootstrapping a SaaS business"
-"What's happening with the US housing market right now?"
-"Investigate the competitive landscape for AI code editors"
+「核融合エネルギーの現状を調査して」
+「バックエンドサービスにおける Rust vs Go を深掘りして（2026年版）」
+「SaaS ビジネスのブートストラップの最良戦略を調査して」
+「日本の住宅市場は今どうなっている?」
+「AI コードエディターの競合状況を調べて」
 ```

@@ -1,131 +1,108 @@
 ---
 name: content-engine
-description: Create platform-native content systems for X, LinkedIn, TikTok, YouTube, newsletters, and repurposed multi-platform campaigns. Use when the user wants social posts, threads, scripts, content calendars, or one source asset adapted cleanly across platforms.
+description: X・LinkedIn・TikTok・YouTube・ニュースレター・複数プラットフォームへの転用キャンペーン向けのプラットフォームネイティブなコンテンツシステムを作成します。SNS 投稿・スレッド・スクリプト・コンテンツカレンダー、またはひとつの素材をプラットフォームにきれいに適応させたい場合に使用してください。
 origin: ECC
 ---
 
-# Content Engine
+# コンテンツエンジン
 
-Build platform-native content without flattening the author's real voice into platform slop.
+著者の本物のボイスをプラットフォームの典型に平板化することなく、プラットフォームネイティブなコンテンツを構築する。
 
-## When to Activate
+## 有効化するとき
 
-- writing X posts or threads
-- drafting LinkedIn posts or launch updates
-- scripting short-form video or YouTube explainers
-- repurposing articles, podcasts, demos, docs, or internal notes into public content
-- building a launch sequence or ongoing content system around a product, insight, or narrative
+- X の投稿またはスレッドを書く
+- LinkedIn の投稿またはローンチアップデートのドラフト作成
+- ショート動画または YouTube 解説のスクリプト作成
+- 記事・ポッドキャスト・デモ・ドキュメント・社内メモをパブリックコンテンツに転用
+- 製品・インサイト・ナラティブを中心としたローンチシーケンスまたは継続的なコンテンツシステムの構築
 
-## Non-Negotiables
+## 絶対に守ること
 
-1. Start from source material, not generic post formulas.
-2. Adapt the format for the platform, not the persona.
-3. One post should carry one actual claim.
-4. Specificity beats adjectives.
-5. No engagement bait unless the user explicitly asks for it.
+1. 一般的な投稿フォーミュラではなく素材から始める。
+2. ペルソナではなくプラットフォームに合わせてフォーマットを適応させる。
+3. 1投稿につき1つの実際の主張を持たせる。
+4. 具体性は形容詞に勝る。
+5. ユーザーが明示的に求めない限り、エンゲージメント目的のコンテンツは使わない。
 
-## Source-First Workflow
+## 素材優先のワークフロー
 
-Before drafting, identify the source set:
-- published articles
-- notes or internal memos
-- product demos
-- docs or changelogs
-- transcripts
-- screenshots
-- prior posts from the same author
+ドラフト前に素材セットを特定する：
+- 公開された記事
+- メモまたは社内メモ
+- 製品デモ
+- ドキュメントまたは変更ログ
+- トランスクリプト
+- スクリーンショット
+- 同じ著者の過去の投稿
 
-If the user wants a specific voice, build a voice profile from real examples before writing.
-Use `brand-voice` as the canonical workflow when voice consistency matters across more than one output.
+特定のボイスが必要な場合は、書く前に実際の例からボイスプロファイルを構築する。
+複数のアウトプットでボイスの一貫性が重要な場合は、`brand-voice` を正規ワークフローとして使用する。
 
-## Voice Handling
+## 禁止パターン
 
-`brand-voice` is the canonical voice layer.
+以下はすべて削除して書き直す：
+- 「急速に進化する今日の環境では」
+- 「ゲームチェンジャー」「革命的」「最先端」
+- 具体的なことが続かない限り「なぜこれが重要かというと」
+- フォロワーを稼ぐためだけの LinkedIn スタイルの末尾の質問
+- LinkedIn での強制的なカジュアルさ
+- 素材に存在しなかった偽のエンゲージメント水増し
 
-Run it first when:
-
-- there are multiple downstream outputs
-- the user explicitly cares about writing style
-- the content is launch, outreach, or reputation-sensitive
-
-Reuse the resulting `VOICE PROFILE` here instead of rebuilding a second voice model.
-If the user wants Affaan / ECC voice specifically, still treat `brand-voice` as the source of truth and feed it the best live or source-derived material available.
-
-## Hard Bans
-
-Delete and rewrite any of these:
-- "In today's rapidly evolving landscape"
-- "game-changer", "revolutionary", "cutting-edge"
-- "here's why this matters" unless it is followed immediately by something concrete
-- ending with a LinkedIn-style question just to farm replies
-- forced casualness on LinkedIn
-- fake engagement padding that was not present in the source material
-
-## Platform Adaptation Rules
+## プラットフォーム適応ルール
 
 ### X
 
-- open with the strongest claim, artifact, or tension
-- keep the compression if the source voice is compressed
-- if writing a thread, each post must advance the argument
-- do not pad with context the audience does not need
+- 最も強い主張・成果物・緊張から始める
+- 情報源のボイスが圧縮されていれば、圧縮を維持する
+- スレッドを書く場合は各投稿が議論を前進させること
+- 読者が必要としないコンテキストで水増ししない
 
 ### LinkedIn
 
-- expand only enough for people outside the immediate niche to follow
-- do not turn it into a fake lesson post unless the source material actually is reflective
-- no corporate inspiration cadence
-- no praise-stacking, no "journey" filler
+- 専門外の人がついていけるだけの展開にとどめる
+- 素材が実際に内省的でない限り、偽の教訓ポストにしない
+- 企業の啓発的なリズムを使わない
+- 褒め言葉の積み重ね・「旅」の書き出しをしない
 
-### Short Video
+### ショート動画
 
-- script around the visual sequence and proof points
-- first seconds should show the result, problem, or punch
-- do not write narration that sounds better on paper than on screen
+- ビジュアルシーケンスと証拠ポイントを中心にスクリプトを組む
+- 最初の数秒で結果・問題・インパクトを見せる
+- 画面より紙で読んだほうが良いナレーションを書かない
 
 ### YouTube
 
-- show the result or tension early
-- organize by argument or progression, not filler sections
-- use chaptering only when it helps clarity
+- 早めに結果または緊張を見せる
+- 水増しセクションではなく議論または展開で整理する
+- 明確さに役立つ場合のみチャプタリングを使用する
 
-### Newsletter
+### ニュースレター
 
-- open with the point, conflict, or artifact
-- do not spend the first paragraph warming up
-- every section needs to add something new
+- ポイント・葛藤・成果物から始める
+- 最初の段落でウォームアップに費やさない
+- 各セクションに新しいものを追加する
 
-## Repurposing Flow
+## 転用フロー
 
-1. Pick the anchor asset.
-2. Extract 3 to 7 atomic claims or scenes.
-3. Rank them by sharpness, novelty, and proof.
-4. Assign one strong idea per output.
-5. Adapt structure for each platform.
-6. Strip platform-shaped filler.
-7. Run the quality gate.
+1. アンカー素材を選ぶ。
+2. 3〜7 つの原子的な主張またはシーンを抽出する。
+3. 鋭さ・新規性・証拠でランク付けする。
+4. 各アウトプットに1つの強いアイデアを割り当てる。
+5. 各プラットフォーム向けに構成を適応させる。
+6. プラットフォーム形式の水増しを削除する。
+7. 品質チェックを実施する。
 
-## Deliverables
+## 品質チェック
 
-When asked for a campaign, return:
-- a short voice profile if voice matching matters
-- the core angle
-- platform-native drafts
-- posting order only if it helps execution
-- gaps that must be filled before publishing
+提出前に確認：
+- すべてのドラフトがプラットフォームの典型ではなく意図した著者らしく聞こえる
+- すべてのドラフトに実際の主張・証拠・具体的な観察が含まれる
+- 一般的な誇大表現が残っていない
+- 偽のエンゲージメント目的コンテンツが残っていない
+- 要求されない限りプラットフォーム間でコピーが重複していない
+- CTA は根拠があり、ユーザーが承認したものである
 
-## Quality Gate
+## 関連スキル
 
-Before delivering:
-- every draft sounds like the intended author, not the platform stereotype
-- every draft contains a real claim, proof point, or concrete observation
-- no generic hype language remains
-- no fake engagement bait remains
-- no duplicated copy across platforms unless requested
-- any CTA is earned and user-approved
-
-## Related Skills
-
-- `brand-voice` for source-derived voice profiles
-- `crosspost` for platform-specific distribution
-- `x-api` for sourcing recent posts and publishing approved X output
+- `brand-voice`: 情報源から導き出したボイスプロファイル
+- `crosspost`: プラットフォーム固有の配信

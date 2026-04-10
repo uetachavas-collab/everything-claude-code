@@ -1,121 +1,118 @@
 ---
 name: email-ops
-description: Evidence-first mailbox triage, drafting, send verification, and sent-mail-safe follow-up workflow for ECC. Use when the user wants to organize email, draft or send through the real mail surface, or prove what landed in Sent.
+description: 証拠優先のメールボックストリアージ・ドラフト作成・送信確認・送信済み確認ワークフロー。メールの整理・ドラフト作成・送信・送信済みの確認が必要な場合に使用してください。
 origin: ECC
 ---
 
-# Email Ops
+# メール操作
 
-Use this when the real task is mailbox work: triage, drafting, replying, sending, or proving a message landed in Sent.
+メールボックスの作業が実際のタスクである場合に使用する: トリアージ・ドラフト作成・返信・送信・送信済み確認。
 
-This is not a generic writing skill. It is an operator workflow around the actual mail surface.
+これは汎用の文章スキルではなく、実際のメールサーフェスを中心としたオペレーターワークフロー。
 
-## Skill Stack
+## 関連スキル
 
-Pull these ECC-native skills into the workflow when relevant:
+以下は必要に応じてワークフローに取り込む：
 
-- `brand-voice` before drafting anything user-facing
-- `investor-outreach` for investor, partner, or sponsor-facing mail
-- `customer-billing-ops` when the thread is a billing/support incident rather than generic correspondence
-- `knowledge-ops` when the message or thread should be captured into durable context afterward
-- `research-ops` when a reply depends on fresh external facts
+- `brand-voice`: ユーザー向けの内容をドラフトする前に使用
+- `knowledge-ops`: メッセージやスレッドを後で永続コンテキストに取り込む必要がある場合
 
-## When to Use
+## 使いどき
 
-- user asks to triage inbox or archive low-signal mail
-- user wants a draft, reply, or new outbound email
-- user wants to know whether a mail was already sent
-- the user wants proof of which account, thread, or Sent entry was used
+- 受信トレイのトリアージや低シグナルメールのアーカイブを求められたとき
+- ドラフト・返信・新規アウトバウンドメールが必要なとき
+- メールがすでに送信済みかどうかを確認したいとき
+- どのアカウント・スレッド・送信済みエントリが使われたかの証拠が必要なとき
 
-## Guardrails
+## ガードレール
 
-- draft first unless the user clearly asked for a live send
-- never claim a message was sent without a real Sent-folder or client-side confirmation
-- do not switch sender accounts casually; choose the account that matches the project and recipient
-- do not delete uncertain business mail during cleanup
-- if the task is really DM or iMessage work, hand off to `messages-ops`
+- ユーザーがライブ送信を明確に求めない限り、まずドラフトを作成する
+- 本物の送信フォルダーまたはクライアント側の確認なしに送信済みと主張しない
+- 送信者アカウントを気軽に切り替えない — プロジェクトと受信者に合ったアカウントを選択する
+- 不確かなビジネスメールはクリーンアップ中に削除しない
+- タスクが実際は DM または iMessage の作業なら `messages-ops` に引き渡す
 
-## Workflow
+## ワークフロー
 
-### 1. Resolve the exact surface
+### 1. 正確なサーフェスを確認する
 
-Before acting, settle:
+アクションを起こす前に以下を確定する：
 
-- which mailbox account
-- which thread or recipient
-- whether the task is triage, draft, reply, or send
-- whether the user wants draft-only or live send
+- どのメールボックスアカウントか
+- どのスレッドまたは受信者か
+- タスクはトリアージ・ドラフト・返信・送信のどれか
+- ドラフトのみか、ライブ送信か
 
-### 2. Read the thread before composing
+### 2. 作成前にスレッドを読む
 
-If replying:
+返信の場合：
 
-- read the existing thread
-- identify the last outbound touch
-- identify any commitments, deadlines, or unanswered questions
+- 既存のスレッドを読む
+- 最後のアウトバウンドタッチを特定する
+- 約束事・締め切り・未回答の質問を特定する
 
-If creating a new outbound:
+新規アウトバウンドの場合：
 
-- identify warmth level
-- select the correct channel and sender account
-- pull `brand-voice` before drafting
+- 温度感を特定する
+- 正しいチャンネルと送信者アカウントを選択する
+- ドラフト前に `brand-voice` を実行する
 
-### 3. Draft, then verify
+### 3. ドラフト、そして確認する
 
-For draft-only work:
+ドラフトのみの作業の場合：
 
-- produce the final copy
-- state sender, recipient, subject, and purpose
+- 最終的なコピーを作成する
+- 送信者・受信者・件名・目的を記述する
 
-For live-send work:
+ライブ送信の作業の場合：
 
-- verify the exact final body first
-- send through the chosen mail surface
-- confirm the message landed in Sent or the equivalent sent-copy store
+- まず正確な最終本文を確認する
+- 選択したメールサーフェスから送信する
+- メッセージが送信フォルダーまたは同等の送信済みコピーストアに届いたことを確認する
 
-### 4. Report exact state
+### 4. 正確な状態を報告する
 
-Use exact status words:
+以下の正確なステータス語を使用する：
 
-- drafted
-- approval-pending
-- sent
-- blocked
-- awaiting verification
+- drafted（ドラフト済み）
+- approval-pending（承認待ち）
+- sent（送信済み）
+- blocked（ブロック中）
+- awaiting verification（確認待ち）
 
-If the send surface is blocked, preserve the draft and report the exact blocker instead of improvising a second transport without saying so.
+送信サーフェスがブロックされている場合は、代替手段を黙って使わずにドラフトを保存して正確なブロッカーを報告する。
 
-## Output Format
+## 出力フォーマット
 
 ```text
-MAIL SURFACE
-- account
-- thread / recipient
-- requested action
+メールサーフェス
+- アカウント
+- スレッド / 受信者
+- 要求されたアクション
 
-DRAFT
-- subject
-- body
+ドラフト
+- 件名
+- 本文
 
-STATUS
+ステータス
 - drafted / sent / blocked
-- proof of Sent when applicable
+- 該当する場合は送信済みの証拠
 
-NEXT STEP
-- send
-- follow up
-- archive / move
+次のステップ
+- 送信
+- フォローアップ
+- アーカイブ / 移動
 ```
 
-## Pitfalls
+## 注意事項
 
-- do not claim send success without a sent-copy check
-- do not ignore the thread history and write a contextless reply
-- do not mix mailbox work with DM or text-message workflows
-- do not expose secrets, auth details, or unnecessary message metadata
+- 送信済みコピーの確認なしに送信成功と主張しない
+- スレッド履歴を無視してコンテキストのない返信を書かない
+- メールボックス作業と DM またはテキストメッセージのワークフローを混在させない
+- 秘密情報・認証詳細・不要なメッセージメタデータを開示しない
 
-## Verification
+## 確認事項
 
-- the response names the account and thread or recipient
-- any send claim includes Sent proof or an explicit client-side confirmation
-- the final state is one of drafted / sent / blocked / awaiting verification
+- 回答にアカウントとスレッドまたは受信者が記載されている
+- 送信の主張には送信済みの証拠またはクライアント側の明示的な確認が含まれる
+- 最終状態が drafted / sent / blocked / awaiting verification のいずれかである

@@ -1,72 +1,77 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+このファイルは、リポジトリ内で作業する Claude Code（claude.ai/code）へのガイドを提供します。
 
-## Project Overview
+## プロジェクト概要
 
-This is a **Claude Code plugin** - a collection of production-ready agents, skills, hooks, commands, rules, and MCP configurations. The project provides battle-tested workflows for software development using Claude Code.
+これは **Claude Code プラグイン** です。本番環境で使えるエージェント・スキル・フック・コマンド・ルール・MCP 設定のコレクションで、Claude Code を使ったソフトウェア開発に向けた実績あるワークフローを提供します。
 
-## Running Tests
+## テストの実行
 
 ```bash
-# Run all tests
+# 全テストの実行
 node tests/run-all.js
 
-# Run individual test files
+# 個別テストファイルの実行
 node tests/lib/utils.test.js
 node tests/lib/package-manager.test.js
 node tests/hooks/hooks.test.js
 ```
 
-## Architecture
+## アーキテクチャ
 
-The project is organized into several core components:
+プロジェクトは以下のコアコンポーネントで構成されています。
 
-- **agents/** - Specialized subagents for delegation (planner, code-reviewer, tdd-guide, etc.)
-- **skills/** - Workflow definitions and domain knowledge (coding standards, patterns, testing)
-- **commands/** - Slash commands invoked by users (/tdd, /plan, /e2e, etc.)
-- **hooks/** - Trigger-based automations (session persistence, pre/post-tool hooks)
-- **rules/** - Always-follow guidelines (security, coding style, testing requirements)
-- **mcp-configs/** - MCP server configurations for external integrations
-- **scripts/** - Cross-platform Node.js utilities for hooks and setup
-- **tests/** - Test suite for scripts and utilities
+- **agents/** — 委譲先の専門サブエージェント（planner、seo-specialist など）
+- **skills/** — ワークフロー定義とドメイン知識
+- **commands/** — ユーザーが呼び出すスラッシュコマンド（/plan、/learn など）
+- **hooks/** — トリガーベースの自動処理（セッション永続化、ツール前後フックなど）
+- **rules/** — 常時適用ガイドライン（セキュリティ、コーディングスタイル、テスト要件など）
+- **mcp-configs/** — 外部連携向けの MCP サーバー設定
+- **scripts/** — フック・セットアップ用の Node.js ユーティリティ
+- **tests/** — スクリプトとユーティリティのテストスイート
 
-## Key Commands
+## 主要コマンド
 
-- `/tdd` - Test-driven development workflow
-- `/plan` - Implementation planning
-- `/e2e` - Generate and run E2E tests
-- `/code-review` - Quality review
-- `/build-fix` - Fix build errors
-- `/learn` - Extract patterns from sessions
-- `/skill-create` - Generate skills from git history
+- `/plan` — 実装計画の作成
+- `/learn` — セッションからパターンを抽出
+- `/docs` — ドキュメント参照
+- `/jira` — Jira チケットの操作
 
-## Development Notes
+## 開発メモ
 
-- Package manager detection: npm, pnpm, yarn, bun (configurable via `CLAUDE_PACKAGE_MANAGER` env var or project config)
-- Cross-platform: Windows, macOS, Linux support via Node.js scripts
-- Agent format: Markdown with YAML frontmatter (name, description, tools, model)
-- Skill format: Markdown with clear sections for when to use, how it works, examples
-- Skill placement: Curated in skills/; generated/imported under ~/.claude/skills/. See docs/SKILL-PLACEMENT-POLICY.md
-- Hook format: JSON with matcher conditions and command/notification hooks
+- パッケージマネージャー検出: npm、pnpm、yarn、bun（`CLAUDE_PACKAGE_MANAGER` 環境変数またはプロジェクト設定で変更可能）
+- クロスプラットフォーム対応: Node.js スクリプトにより Windows・macOS・Linux をサポート
+- エージェント形式: YAML フロントマター付き Markdown（name・description・tools・model）
+- スキル形式: 明確なセクション分けの Markdown（いつ使うか・仕組み・例）
+- スキル配置ポリシー: キュレーション済みは skills/、生成・インポート済みは ~/.claude/skills/ に配置
+- フック形式: matcher 条件と command/notification フックによる JSON
 
-## Contributing
+## コントリビュート
 
-Follow the formats in CONTRIBUTING.md:
-- Agents: Markdown with frontmatter (name, description, tools, model)
-- Skills: Clear sections (When to Use, How It Works, Examples)
-- Commands: Markdown with description frontmatter
-- Hooks: JSON with matcher and hooks array
+CONTRIBUTING.md のフォーマットに従ってください。
+- エージェント: フロントマター付き Markdown（name・description・tools・model）
+- スキル: 明確なセクション（いつ使うか・仕組み・例）
+- コマンド: description フロントマター必須の Markdown
+- フック: matcher と hooks 配列による JSON
 
-File naming: lowercase with hyphens (e.g., `python-reviewer.md`, `tdd-workflow.md`)
+ファイル名: ハイフン区切りの小文字（例: `seo-specialist.md`、`planner.md`）
 
-## Skills
+## 出力言語
 
-Use the following skills when working on related files:
+- すべての応答・レポート・コメントは日本語で出力する
+- コードやコマンドは英語のまま維持する
+- エラーメッセージの解説は日本語で補足する
+- 日付フォーマット：YYYY年MM月DD日
+- 数値フォーマット：日本式（カンマ区切り）
 
-| File(s) | Skill |
+## スキル
+
+関連ファイルで作業する際は、以下のスキルを使用してください。
+
+| ファイル | スキル |
 |---------|-------|
 | `README.md` | `/readme` |
 | `.github/workflows/*.yml` | `/ci-workflow` |
 
-When spawning subagents, always pass conventions from the respective skill into the agent's prompt.
+サブエージェントを起動する際は、該当スキルの規約を必ずエージェントのプロンプトに渡してください。

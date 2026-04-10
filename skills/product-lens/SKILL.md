@@ -1,92 +1,89 @@
 ---
 name: product-lens
-description: Use this skill to validate the "why" before building, run product diagnostics, and pressure-test product direction before the request becomes an implementation contract.
+description: 構築前に「なぜ」を検証し、製品診断を実施し、リクエストが実装コントラクトになる前に製品の方向性を検証します。
 origin: ECC
 ---
 
-# Product Lens — Think Before You Build
+# 製品レンズ — 構築前に考える
 
-This lane owns product diagnosis, not implementation-ready specification writing.
+このレーンは製品の診断を担当し、実装準備済みの仕様書の作成は担当しない。
 
-If the user needs a durable PRD-to-SRS or capability-contract artifact, hand off to `product-capability`.
+永続的な PRD-to-SRS またはケイパビリティコントラクトの成果物が必要な場合は `product-capability` に引き渡す。
 
-## When to Use
+## 使いどき
 
-- Before starting any feature — validate the "why"
-- Weekly product review — are we building the right thing?
-- When stuck choosing between features
-- Before a launch — sanity check the user journey
-- When converting a vague idea into a product brief before engineering planning starts
+- 機能を始める前 — 「なぜ」を検証する
+- 週次の製品レビュー — 正しいものを構築しているか?
+- 機能を選ぶのに迷っているとき
+- ローンチ前 — ユーザージャーニーの健全性チェック
+- 曖昧なアイデアをエンジニアリング計画の前に製品概要に変換するとき
 
-## How It Works
+## 仕組み
 
-### Mode 1: Product Diagnostic
+### モード 1: 製品診断
 
-Like YC office hours but automated. Asks the hard questions:
-
-```
-1. Who is this for? (specific person, not "developers")
-2. What's the pain? (quantify: how often, how bad, what do they do today?)
-3. Why now? (what changed that makes this possible/necessary?)
-4. What's the 10-star version? (if money/time were unlimited)
-5. What's the MVP? (smallest thing that proves the thesis)
-6. What's the anti-goal? (what are you explicitly NOT building?)
-7. How do you know it's working? (metric, not vibes)
-```
-
-Output: a `PRODUCT-BRIEF.md` with answers, risks, and a go/no-go recommendation.
-
-If the result is "yes, build this," the next lane is `product-capability`, not more founder-theater.
-
-### Mode 2: Founder Review
-
-Reviews your current project through a founder lens:
+YC のオフィスアワーの自動版。厳しい質問をする：
 
 ```
-1. Read README, CLAUDE.md, package.json, recent commits
-2. Infer: what is this trying to be?
-3. Score: product-market fit signals (0-10)
-   - Usage growth trajectory
-   - Retention indicators (repeat contributors, return users)
-   - Revenue signals (pricing page, billing code, Stripe integration)
-   - Competitive moat (what's hard to copy?)
-4. Identify: the one thing that would 10x this
-5. Flag: things you're building that don't matter
+1. これは誰のためか?（具体的な人物、「開発者」ではなく）
+2. 痛みは何か?（定量化: 頻度・深刻さ・現在何をしているか?）
+3. なぜ今か?（これを可能/必要にした変化は?）
+4. 10つ星バージョンは?（資金と時間が無制限なら）
+5. MVP は?（仮説を証明する最小のもの）
+6. 反目標は?（明示的に構築しないもの）
+7. うまくいっていることをどう知るか?（感覚ではなく指標）
 ```
 
-### Mode 3: User Journey Audit
+アウトプット: 回答・リスク・Go/No-Go 推奨を含む `PRODUCT-BRIEF.md`。
 
-Maps the actual user experience:
+結果が「はい、構築する」なら、次のレーンは `product-capability` であり、それ以上の創業者向けの演説ではない。
 
-```
-1. Clone/install the product as a new user
-2. Document every friction point (confusing steps, errors, missing docs)
-3. Time each step
-4. Compare to competitor onboarding
-5. Score: time-to-value (how long until the user gets their first win?)
-6. Recommend: top 3 fixes for onboarding
-```
+### モード 2: 創業者レビュー
 
-### Mode 4: Feature Prioritization
-
-When you have 10 ideas and need to pick 2:
+現在のプロジェクトを創業者の視点でレビューする：
 
 ```
-1. List all candidate features
-2. Score each on: impact (1-5) × confidence (1-5) ÷ effort (1-5)
-3. Rank by ICE score
-4. Apply constraints: runway, team size, dependencies
-5. Output: prioritized roadmap with rationale
+1. README・CLAUDE.md・package.json・最近のコミットを読む
+2. 推定: これは何を目指しているか?
+3. スコア: PMF シグナル（0〜10）
+   - 使用成長の軌跡
+   - リテンション指標（リピートコントリビューター・リターンユーザー）
+   - 収益シグナル（価格ページ・課金コード・Stripe 統合）
+   - 競合上の堀（コピーしにくいものは?）
+4. 特定: これを 10 倍にする一つのこと
+5. フラグ: 構築しているが重要でないもの
 ```
 
-## Output
+### モード 3: ユーザージャーニー監査
 
-All modes output actionable docs, not essays. Every recommendation has a specific next step.
+実際のユーザーエクスペリエンスをマッピングする：
 
-## Integration
+```
+1. 新規ユーザーとして製品をクローン/インストールする
+2. すべての摩擦ポイントを文書化する（わかりにくいステップ・エラー・欠落したドキュメント）
+3. 各ステップの時間を計る
+4. 競合のオンボーディングと比較する
+5. スコア: 価値実現までの時間（ユーザーが最初の成果を得るまでの時間?）
+6. 推奨: オンボーディングのトップ 3 修正点
+```
 
-Pair with:
-- `/browser-qa` to verify the user journey audit findings
-- `/design-system audit` for visual polish assessment
-- `/canary-watch` for post-launch monitoring
-- `product-capability` when the product brief needs to become an implementation-ready capability plan
+### モード 4: 機能の優先順位付け
+
+10 のアイデアがあって 2 つを選ぶ必要があるとき：
+
+```
+1. すべての候補機能をリストアップする
+2. 各機能をスコアリングする: 影響（1〜5）× 確信度（1〜5）÷ 工数（1〜5）
+3. ICE スコアでランク付けする
+4. 制約を適用する: 資金・チームサイズ・依存関係
+5. アウトプット: 根拠付きの優先順位付けされたロードマップ
+```
+
+## アウトプット
+
+すべてのモードはエッセイではなく実行可能なドキュメントを出力する。すべての推奨に具体的な次のステップがある。
+
+## 連携
+
+以下とあわせて使用する：
+- `product-capability`: 製品概要を実装準備済みのケイパビリティプランにする必要がある場合

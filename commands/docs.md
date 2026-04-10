@@ -1,23 +1,23 @@
 ---
-description: Legacy slash-entry shim for the documentation-lookup skill. Prefer the skill directly.
+description: documentation-lookup スキルへの互換性シム。直接スキルを使用することを推奨します。
 ---
 
-# Docs Command (Legacy Shim)
+# Docs コマンド（互換性シム）
 
-Use this only if you still reach for `/docs`. The maintained workflow lives in `skills/documentation-lookup/SKILL.md`.
+`/docs` を使用している場合のみこのコマンドを使用してください。メンテナンス済みのワークフローは `skills/documentation-lookup/SKILL.md` にあります。
 
-## Canonical Surface
+## 正規の使い方
 
-- Prefer the `documentation-lookup` skill directly.
-- Keep this file only as a compatibility entry point.
+- 直接 `documentation-lookup` スキルを使用することを推奨します。
+- このファイルは互換性のエントリポイントとしてのみ維持されています。
 
-## Arguments
+## 引数
 
 `$ARGUMENTS`
 
-## Delegation
+## 委譲
 
-Apply the `documentation-lookup` skill.
-- If the library or the question is missing, ask for the missing part.
-- Use live documentation through Context7 instead of training data.
-- Return only the current answer and the minimum code/example surface needed.
+`documentation-lookup` スキルを適用する。
+- ライブラリまたは質問が不足している場合は、不足している部分を確認する。
+- トレーニングデータではなく Context7 経由のライブドキュメントを使用する。
+- 現在の回答と必要最小限のコード/例のみを返す。

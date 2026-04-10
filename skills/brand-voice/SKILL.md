@@ -1,97 +1,81 @@
 ---
 name: brand-voice
-description: Build a source-derived writing style profile from real posts, essays, launch notes, docs, or site copy, then reuse that profile across content, outreach, and social workflows. Use when the user wants voice consistency without generic AI writing tropes.
+description: 実際の投稿・エッセイ・ローンチノート・ドキュメント・サイトコピーから情報源に基づく文章スタイルプロファイルを構築し、コンテンツ・アウトリーチ・SNS ワークフロー全体でそのプロファイルを再利用します。一般的な AI の文章パターンなしにボイスの一貫性を維持したいときに使用してください。
 origin: ECC
 ---
 
-# Brand Voice
+# ブランドボイス
 
-Build a durable voice profile from real source material, then use that profile everywhere instead of re-deriving style from scratch or defaulting to generic AI copy.
+毎回スタイルを一から作り直したり汎用的な AI コピーをデフォルトにしたりするのではなく、実際の素材から持続可能なボイスプロファイルを構築し、どこでもそのプロファイルを使う。
 
-## When to Activate
+## 有効化するとき
 
-- the user wants content or outreach in a specific voice
-- writing for X, LinkedIn, email, launch posts, threads, or product updates
-- adapting a known author's tone across channels
-- the existing content lane needs a reusable style system instead of one-off mimicry
+- ユーザーが特定のボイスでコンテンツやアウトリーチを求めているとき
+- X・LinkedIn・メール・ローンチ投稿・スレッド・製品アップデートの執筆
+- 既知の著者のトーンをチャンネルをまたいで適応させるとき
+- 既存のコンテンツに、一度限りの模倣ではなく再利用可能なスタイルシステムが必要なとき
 
-## Source Priority
+## 情報源の優先順位
 
-Use the strongest real source set available, in this order:
+以下の順で最も強い実際の情報源セットを使用する：
 
-1. recent original X posts and threads
-2. articles, essays, memos, launch notes, or newsletters
-3. real outbound emails or DMs that worked
-4. product docs, changelogs, README framing, and site copy
+1. 最近のオリジナル X 投稿とスレッド
+2. 記事・エッセイ・メモ・ローンチノート・ニュースレター
+3. 効果があった実際のアウトバウンドメールまたは DM
+4. 製品ドキュメント・変更ログ・README のフレーミング・サイトコピー
 
-Do not use generic platform exemplars as source material.
+汎用的なプラットフォームの例を素材として使用しない。
 
-## Collection Workflow
+## 収集ワークフロー
 
-1. Gather 5 to 20 representative samples when available.
-2. Prefer recent material over old material unless the user says the older writing is more canonical.
-3. Separate "public launch voice" from "private working voice" if the source set clearly splits.
-4. If live X access is available, use `x-api` to pull recent original posts before drafting.
-5. If site copy matters, include the current ECC landing page and repo/plugin framing.
+1. 利用可能な場合は 5〜20 の代表的なサンプルを収集する。
+2. ユーザーが古い文章のほうが正統だと言わない限り、最近の素材を古い素材より優先する。
+3. 情報源セットが明確に分かれる場合は「パブリックローンチボイス」と「プライベート作業ボイス」を分離する。
+4. ライブ X アクセスが可能な場合は、ドラフト前に `x-api` を使って最近のオリジナル投稿を取得する。
 
-## What to Extract
+## 抽出する内容
 
-- rhythm and sentence length
-- compression vs explanation
-- capitalization norms
-- parenthetical use
-- question frequency and purpose
-- how sharply claims are made
-- how often numbers, mechanisms, or receipts show up
-- how transitions work
-- what the author never does
+- リズムと文の長さ
+- 圧縮 vs 説明
+- 大文字化の規範
+- 括弧の使用
+- 質問の頻度と目的
+- 主張の鋭さ
+- 数値・メカニズム・証拠の登場頻度
+- 接続表現の機能
+- 著者が絶対にしないこと
 
-## Output Contract
+## 出力規約
 
-Produce a reusable `VOICE PROFILE` block that downstream skills can consume directly. Use the schema in [references/voice-profile-schema.md](references/voice-profile-schema.md).
+下流のスキルが直接使用できる再利用可能な `VOICE PROFILE` ブロックを生成する。
 
-Keep the profile structured and short enough to reuse in session context. The point is not literary criticism. The point is operational reuse.
+プロファイルは構造化され、セッションコンテキストで再利用できる程度に短くする。目的は文学批評ではなく、業務での再利用。
 
-## Affaan / ECC Defaults
+## 禁止パターン
 
-If the user wants Affaan / ECC voice and live sources are thin, start here unless newer source material overrides it:
+以下はすべて削除して書き直す：
 
-- direct, compressed, concrete
-- specifics, mechanisms, receipts, and numbers beat adjectives
-- parentheticals are for qualification, narrowing, or over-clarification
-- capitalization is conventional unless there is a real reason to break it
-- questions are rare and should not be used as bait
-- tone can be sharp, blunt, skeptical, or dry
-- transitions should feel earned, not smoothed over
+- 偽の好奇心フック
+- 「X ではなく、ただ Y」
+- 「ノイズなし」
+- 強制的な小文字化
+- LinkedIn のソートリーダーのリズム
+- 誘い込み質問
+- 「シェアできて嬉しいです」
+- 汎用的な創業者ジャーニーの書き出し
+- 間の抜けた括弧内表現
 
-## Hard Bans
+## 永続化ルール
 
-Delete and rewrite any of these:
+- 同じセッション内の関連タスクでは最新の確認済み `VOICE PROFILE` を再利用する。
+- ユーザーが永続的な成果物を求めた場合、要求されたワークスペースの場所またはメモリサーフェスにプロファイルを保存する。
+- ユーザーが明示的に要求しない限り、個人のボイスフィンガープリントを保存するリポジトリ追跡ファイルを作成しない。
 
-- fake curiosity hooks
-- "not X, just Y"
-- "no fluff"
-- forced lowercase
-- LinkedIn thought-leader cadence
-- bait questions
-- "Excited to share"
-- generic founder-journey filler
-- corny parentheticals
+## 下流での使用
 
-## Persistence Rules
-
-- Reuse the latest confirmed `VOICE PROFILE` across related tasks in the same session.
-- If the user asks for a durable artifact, save the profile in the requested workspace location or memory surface.
-- Do not create repo-tracked files that store personal voice fingerprints unless the user explicitly asks for that.
-
-## Downstream Use
-
-Use this skill before or inside:
+このスキルは以下の前または中で使用する：
 
 - `content-engine`
 - `crosspost`
-- `lead-intelligence`
-- article or launch writing
-- cold or warm outbound across X, LinkedIn, and email
-
-If another skill already has a partial voice capture section, this skill is the canonical source of truth.
+- 記事またはローンチ執筆
+- X・LinkedIn・メールを横断したコールドまたはウォームアウトバウンド

@@ -1,95 +1,93 @@
 ---
 name: google-workspace-ops
-description: Operate across Google Drive, Docs, Sheets, and Slides as one workflow surface for plans, trackers, decks, and shared documents. Use when the user needs to find, summarize, edit, migrate, or clean up Google Workspace assets without dropping to raw tool calls.
+description: Google Drive・Docs・Sheets・Slides をひとつのワークフローサーフェスとして計画書・トラッカー・スライド・共有ドキュメントを操作します。生のツール呼び出しに落とし込まずに Google Workspace アセットを検索・要約・編集・移行・整理する場合に使用してください。
 origin: ECC
 ---
 
-# Google Workspace Ops
+# Google Workspace 操作
 
-This skill is for operating shared docs, spreadsheets, and decks as working systems, not just editing one file in isolation.
+このスキルは、共有ドキュメント・スプレッドシート・スライドをひとつのファイルを独立して編集するのではなく、作業システムとして運用するためのもの。
 
-## When to Use
+## 使いどき
 
-- User needs to find a doc, sheet, or deck and update it in place
-- Consolidating plans, trackers, notes, or customer lists stored in Google Drive
-- Cleaning or restructuring a shared spreadsheet
-- Importing, repairing, or reformatting a Google Slides deck
-- Producing summaries from Docs, Sheets, or Slides for decision-making
+- ドキュメント・スプレッドシート・スライドを見つけてその場で更新する必要があるとき
+- Google Drive に保存されている計画書・トラッカー・メモ・顧客リストを統合するとき
+- 共有スプレッドシートをクリーンアップまたは再構築するとき
+- Google スライドのデッキをインポート・修復・再フォーマットするとき
+- 意思決定のために Docs・Sheets・Slides からサマリーを作成するとき
 
-## Preferred Tool Surface
+## 推奨ツールサーフェス
 
-Use Google Drive as the entry point, then switch to the right specialist:
+Google Drive をエントリポイントとして使用し、適切な専門ツールに切り替える：
 
-- Google Docs for text-heavy docs
-- Google Sheets for tabular work, formulas, and charts
-- Google Slides for decks, imports, template migration, and cleanup
+- テキストが多いドキュメントには Google Docs
+- 表形式の作業・数式・グラフには Google Sheets
+- スライド・デッキのインポート・テンプレート移行・クリーンアップには Google Slides
 
-Do not guess structure from filenames alone. Inspect first.
+ファイル名だけから構造を推測しない。まず確認する。
 
-## Workflow
+## ワークフロー
 
-### 1. Find the asset
+### 1. アセットを見つける
 
-Start with the Drive search surface to locate:
+Drive の検索サーフェスから以下を特定する：
 
-- the exact file
-- sibling assets
-- likely duplicates
-- recently modified versions
+- 正確なファイル
+- 関連するアセット
+- 重複の可能性があるもの
+- 最近更新されたバージョン
 
-If several documents look similar, confirm by title, owner, modified time, or folder.
+複数のドキュメントが似ている場合は、タイトル・オーナー・更新日・フォルダーで確認する。
 
-### 2. Inspect before editing
+### 2. 編集前に確認する
 
-Before making changes:
+変更を加える前に：
 
-- summarize current structure
-- identify tabs, headings, or slide count
-- detect whether the task is local cleanup or structural surgery
+- 現在の構造を要約する
+- タブ・見出し・スライド枚数を確認する
+- タスクがローカルのクリーンアップか構造的な手術かを判断する
 
-Pick the smallest tool that can safely perform the work.
+作業を安全に実行できる最小のツールを選択する。
 
-### 3. Edit with precision
+### 3. 精密に編集する
 
-- For Docs: use index-aware edits, not vague rewrites
-- For Sheets: operate on explicit tabs and ranges
-- For Slides: distinguish content edits from visual cleanup or template migration
+- Docs: 曖昧な書き直しではなくインデックスを意識した編集
+- Sheets: 明示的なタブとレンジで操作する
+- Slides: コンテンツ編集とビジュアルクリーンアップまたはテンプレート移行を区別する
 
-If the requested work is visual or layout-sensitive, iterate with inspection and verification instead of one giant blind update.
+要求された作業がビジュアルまたはレイアウト重視の場合は、1回の大きなブラインド更新ではなく、確認と検証を繰り返しながら作業する。
 
-### 4. Keep the working system clean
+### 4. 作業システムをきれいに保つ
 
-When the file is part of a larger workflow, also surface:
+ファイルがより大きなワークフローの一部である場合、以下も表面化させる：
 
-- duplicate trackers
-- outdated decks
-- stale docs vs canonical docs
-- whether the asset should be archived, merged, or renamed
+- 重複するトラッカー
+- 古いスライド
+- 古いドキュメント vs 正規ドキュメント
+- アセットをアーカイブ・マージ・リネームすべきかどうか
 
-## Output Format
-
-Use:
+## 出力フォーマット
 
 ```text
-ASSET
-- file name
-- type
-- why this is the right file
+アセット
+- ファイル名
+- 種類
+- これが正しいファイルである理由
 
-CURRENT STATE
-- structure summary
-- key problems or blockers
+現在の状態
+- 構造サマリー
+- 主要な問題またはブロッカー
 
-ACTION
-- edits made or recommended
+アクション
+- 実施または推奨された編集
 
-FOLLOW-UPS
-- archive / merge / duplicate cleanup / next file to update
+フォローアップ
+- アーカイブ / マージ / 重複クリーンアップ / 次に更新すべきファイル
 ```
 
-## Good Use Cases
+## 良い使用例
 
-- "Find the active planning doc and condense it"
-- "Clean up this customer spreadsheet and show me the churn-risk rows"
-- "Import this deck into Slides and make it presentable"
-- "Find the current tracker, not the stale duplicate"
+- 「アクティブな計画書を見つけて凝縮して」
+- 「この顧客スプレッドシートをクリーンアップしてチャーンリスクのある行を見せて」
+- 「このデッキを Slides にインポートして見栄えよくして」
+- 「現在のトラッカーを見つけて（古い重複じゃないほう）」
