@@ -64,6 +64,16 @@ CONTRIBUTING.md のフォーマットに従ってください。
 - エラーメッセージの解説は日本語で補足する
 - 日付フォーマット：YYYY年MM月DD日
 - 数値フォーマット：日本式（カンマ区切り）
+- 時刻表示：Asia/Tokyo（JST、UTC+9）を基準とする
+
+## 日本語品質基準
+
+- 直訳せず、文脈に合った自然な日本語で表現する
+- 1文は 40〜60 文字を目安に短く保つ
+- 同じ語尾（〜します、〜ます）が連続する場合は言い換えてリズムを整える
+- 専門用語は初出時に括弧で補足説明を入れる（例: MCP（Model Context Protocol））
+- ユーザーへの問いかけは疑問形で終える（「〜ますか？」）
+- 箇条書きは句点（。）を省略してよい
 
 ## スキル
 
@@ -73,5 +83,17 @@ CONTRIBUTING.md のフォーマットに従ってください。
 |---------|-------|
 | `README.md` | `/readme` |
 | `.github/workflows/*.yml` | `/ci-workflow` |
+
+## 日本チーム向けエージェント・スキル
+
+| 用途 | エージェント / スキル |
+|---|---|
+| 日本ビジネス慣習の相談 | `japanese-business-advisor` エージェント |
+| 稟議・報連相フロー | `/japanese-business-ops` スキル |
+| Backlog 操作 | `/backlog` コマンド、`backlog-integration` スキル |
+| Chatwork 操作 | `/chatwork` コマンド、`chatwork-ops` スキル |
+| Notion 操作 | `notion-ja` スキル |
+| SEO 最適化 | `/seo` スキル、`seo-specialist` エージェント |
+| 市場調査 | `/market-research` スキル |
 
 サブエージェントを起動する際は、該当スキルの規約を必ずエージェントのプロンプトに渡してください。

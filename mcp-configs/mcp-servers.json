@@ -141,6 +141,25 @@
       "description": "AI agent regression testing — snapshot behavior, detect regressions in tool calls and output quality. 8 tools: create_test, run_snapshot, run_check, list_tests, validate_skill, generate_skill_tests, run_skill_test, generate_visual_report. API key optional — deterministic checks (tool diff, output hash) work without it. Install: pip install \"evalview>=0.5,<1\""
     }
   },
+    "backlog": {
+      "command": "npx",
+      "args": ["-y", "backlog-mcp-server"],
+      "env": {
+        "BACKLOG_SPACE_ID": "YOUR_BACKLOG_SPACE_ID_HERE",
+        "BACKLOG_API_KEY": "YOUR_BACKLOG_API_KEY_HERE"
+      },
+      "description": "Backlog プロジェクト管理 — 課題の検索・作成・更新・コメント（日本で広く使われる国産 PM ツール）"
+    },
+    "kintone": {
+      "command": "npx",
+      "args": ["-y", "@kintone/mcp-server"],
+      "env": {
+        "KINTONE_BASE_URL": "YOUR_KINTONE_URL_HERE",
+        "KINTONE_USERNAME": "YOUR_KINTONE_USERNAME_HERE",
+        "KINTONE_PASSWORD": "YOUR_KINTONE_PASSWORD_HERE"
+      },
+      "description": "kintone 操作 — アプリのレコード検索・作成・更新（サイボウズ製 日本発ビジネス SaaS）"
+    },
     "slack": {
       "command": "npx",
       "args": ["-y", "@modelcontextprotocol/server-slack"],
